@@ -1,0 +1,46 @@
+services:
+  database:
+    image: postgres:17-alpine
+    environment:
+      - POSTGRES_USER=link-shortener
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=link_shortener
+    ports:
+      - "5432:5432"
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U link-shortener -d link_shortener" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - main
+    
+  shortener:
+    build: shortener
+    ports:
+      - "2137:2137"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://link-shortener:secret@database:5432/link_shortener
+    networks:
+      - main
+      
+  getter:
+    build: getter
+    ports:
+      - "1939:1939"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://link-shortener:secret@database:5432/link_shortener
+    networks:
+      - main
+        
+networks:
+  main:
+    
+    

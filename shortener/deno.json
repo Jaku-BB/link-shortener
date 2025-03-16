@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "dev": "deno run --no-lock --allow-net --allow-env --allow-read --watch main.ts"
+  },
+  "imports": {
+    "@oak/oak": "jsr:@oak/oak@^17.1.4",
+    "@types/pg": "npm:@types/pg@^8.11.11",
+    "base62": "npm:base62@^2.0.2",
+    "pg": "npm:pg@^8.14.0"
+  }
+}
