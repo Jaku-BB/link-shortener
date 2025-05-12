@@ -80,6 +80,20 @@ services:
       - CASSANDRA_KEYSPACE=link_shortener
     networks:
       - main
+      
+  cleaner:
+    build: cleaner
+    depends_on:
+      cassandra-1:
+        condition: service_healthy
+    environment:
+      - CASSANDRA_CONTACT_POINTS=cassandra-1,cassandra-2,cassandra-3
+      - CASSANDRA_DATACENTER=datacenter1
+      - CASSANDRA_KEYSPACE=link_shortener
+      - TTL_SECONDS=120
+      - CLEANUP_INTERVAL_MS=60000
+    networks:
+      - main
         
 networks:
   main:
