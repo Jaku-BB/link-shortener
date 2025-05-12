@@ -1,18 +1,33 @@
 services:
-  database:
-    image: postgres:17-alpine
-    environment:
-      - POSTGRES_USER=link-shortener
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=link_shortener
+  cassandra:
+    image: cassandra:latest
     ports:
-      - "5432:5432"
+      - "9042:9042"
     restart: always
+    environment:
+      - MAX_HEAP_SIZE=512M
+      - HEAP_NEWSIZE=100M
+      - CASSANDRA_CLUSTER_NAME=link_shortener_cluster
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U link-shortener -d link_shortener" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
+      test: [ "CMD", "cqlsh", "-e", "SELECT * FROM system.local" ]
+      interval: 30s
+      timeout: 10s
+      retries: 15
+      start_period: 30s
+    networks:
+      - main
+    
+  cassandra-initialize:
+    image: cassandra:latest
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    volumes:
+      - ./shortener/schema.cql:/schema.cql
+    command: >
+      bash -c "sleep 30 &&
+               cqlsh cassandra -e \"CREATE KEYSPACE IF NOT EXISTS link_shortener WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };\" &&
+               cqlsh cassandra -k link_shortener -f /schema.cql"
     networks:
       - main
     
@@ -21,10 +36,12 @@ services:
     ports:
       - "2137:2137"
     depends_on:
-      database:
-        condition: service_healthy
+      cassandra-initialize:
+        condition: service_completed_successfully
     environment:
-      - DATABASE_URL=postgresql://link-shortener:secret@database:5432/link_shortener
+      - CASSANDRA_CONTACT_POINTS=cassandra
+      - CASSANDRA_DATACENTER=datacenter1
+      - CASSANDRA_KEYSPACE=link_shortener
     networks:
       - main
       
@@ -33,10 +50,12 @@ services:
     ports:
       - "1939:1939"
     depends_on:
-      database:
-        condition: service_healthy
+      cassandra-initialize:
+        condition: service_completed_successfully
     environment:
-      - DATABASE_URL=postgresql://link-shortener:secret@database:5432/link_shortener
+      - CASSANDRA_CONTACT_POINTS=cassandra
+      - CASSANDRA_DATACENTER=datacenter1
+      - CASSANDRA_KEYSPACE=link_shortener
     networks:
       - main
         

@@ -4,7 +4,6 @@
   },
   "imports": {
     "@oak/oak": "jsr:@oak/oak@^17.1.4",
-    "@types/pg": "npm:@types/pg@^8.11.11",
-    "pg": "npm:pg@^8.14.0"
+    "cassandra-driver": "npm:cassandra-driver@^4.7.2"
   }
 }

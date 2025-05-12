@@ -1,0 +1,102 @@
+{
+  "version": "4",
+  "specifiers": {
+    "npm:@types/node@*": "22.12.0",
+    "npm:@types/pg@8.11.11": "8.11.11",
+    "npm:cassandra-driver@^4.7.2": "4.8.0",
+    "npm:path-to-regexp@^6.3.0": "6.3.0"
+  },
+  "npm": {
+    "@types/node@18.19.80": {
+      "integrity": "sha512-kEWeMwMeIvxYkeg1gTc01awpwLbfMRZXdIhwRcakd/KlK53jmRC26LqcbIt7fnAQTu5GzlnWmzA3H6+l1u6xxQ==",
+      "dependencies": [
+        "undici-types@5.26.5"
+      ]
+    },
+    "@types/node@22.12.0": {
+      "integrity": "sha512-Fll2FZ1riMjNmlmJOdAyY5pUbkftXslB5DgEzlIuNaiWhXd00FhWxVC/r4yV/4wBb9JfImTu+jiSvXTkJ7F/gA==",
+      "dependencies": [
+        "undici-types@6.20.0"
+      ]
+    },
+    "@types/pg@8.11.11": {
+      "integrity": "sha512-kGT1qKM8wJQ5qlawUrEkXgvMSXoV213KfMGXcwfDwUIfUHXqXYXOfS1nE1LINRJVVVx5wCm70XnFlMHaIcQAfw==",
+      "dependencies": [
+        "@types/node@22.12.0",
+        "pg-protocol",
+        "pg-types"
+      ]
+    },
+    "adm-zip@0.5.16": {
+      "integrity": "sha512-TGw5yVi4saajsSEgz25grObGHEUaDrniwvA2qwSC060KfqGPdglhvPMA2lPIoxs3PQIItj2iag35fONcQqgUaQ=="
+    },
+    "cassandra-driver@4.8.0": {
+      "integrity": "sha512-HritfMGq9V7SuESeSodHvArs0mLuMk7uh+7hQK2lqdvXrvm50aWxb4RPxkK3mPDdsgHjJ427xNRFITMH2ei+Sw==",
+      "dependencies": [
+        "@types/node@18.19.80",
+        "adm-zip",
+        "long"
+      ]
+    },
+    "long@5.2.5": {
+      "integrity": "sha512-e0r9YBBgNCq1D1o5Dp8FMH0N5hsFtXDBiVa0qoJPHpakvZkmDKPRoGffZJII/XsHvj9An9blm+cRJ01yQqU+Dw=="
+    },
+    "obuf@1.1.2": {
+      "integrity": "sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg=="
+    },
+    "path-to-regexp@6.3.0": {
+      "integrity": "sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ=="
+    },
+    "pg-int8@1.0.1": {
+      "integrity": "sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw=="
+    },
+    "pg-numeric@1.0.2": {
+      "integrity": "sha512-BM/Thnrw5jm2kKLE5uJkXqqExRUY/toLHda65XgFTBTFYZyopbKjBe29Ii3RbkvlsMoFwD+tHeGaCjjv0gHlyw=="
+    },
+    "pg-protocol@1.8.0": {
+      "integrity": "sha512-jvuYlEkL03NRvOoyoRktBK7+qU5kOvlAwvmrH8sr3wbLrOdVWsRxQfz8mMy9sZFsqJ1hEWNfdWKI4SAmoL+j7g=="
+    },
+    "pg-types@4.0.2": {
+      "integrity": "sha512-cRL3JpS3lKMGsKaWndugWQoLOCoP+Cic8oseVcbr0qhPzYD5DWXK+RZ9LY9wxRf7RQia4SCwQlXk0q6FCPrVng==",
+      "dependencies": [
+        "pg-int8",
+        "pg-numeric",
+        "postgres-array",
+        "postgres-bytea",
+        "postgres-date",
+        "postgres-interval",
+        "postgres-range"
+      ]
+    },
+    "postgres-array@3.0.4": {
+      "integrity": "sha512-nAUSGfSDGOaOAEGwqsRY27GPOea7CNipJPOA7lPbdEpx5Kg3qzdP0AaWC5MlhTWV9s4hFX39nomVZ+C4tnGOJQ=="
+    },
+    "postgres-bytea@3.0.0": {
+      "integrity": "sha512-CNd4jim9RFPkObHSjVHlVrxoVQXz7quwNFpz7RY1okNNme49+sVyiTvTRobiLV548Hx/hb1BG+iE7h9493WzFw==",
+      "dependencies": [
+        "obuf"
+      ]
+    },
+    "postgres-date@2.1.0": {
+      "integrity": "sha512-K7Juri8gtgXVcDfZttFKVmhglp7epKb1K4pgrkLxehjqkrgPhfG6OO8LHLkfaqkbpjNRnra018XwAr1yQFWGcA=="
+    },
+    "postgres-interval@3.0.0": {
+      "integrity": "sha512-BSNDnbyZCXSxgA+1f5UU2GmwhoI0aU5yMxRGO8CdFEcY2BQF9xm/7MqKnYoM1nJDk8nONNWDk9WeSmePFhQdlw=="
+    },
+    "postgres-range@1.1.4": {
+      "integrity": "sha512-i/hbxIE9803Alj/6ytL7UHQxRvZkI9O4Sy+J3HGc4F4oo/2eQAjTSNJ0bfxyse3bH0nuVesCk+3IRLaMtG3H6w=="
+    },
+    "undici-types@5.26.5": {
+      "integrity": "sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA=="
+    },
+    "undici-types@6.20.0": {
+      "integrity": "sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@oak/oak@^17.1.4",
+      "npm:cassandra-driver@^4.7.2"
+    ]
+  }
+}

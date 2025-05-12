@@ -10,20 +10,37 @@ router.get("/health-check", ({ response }) => {
 });
 
 router.get("/:short_code", async ({ response, params }) => {
-  const shortCode = params.short_code;
+  try {
+    const shortCode = params.short_code;
 
-  const result = await query<{original: string}>('SELECT original FROM storage WHERE short_code = $1', [shortCode]);
+    let result;
+    try {
+      result = await query<{original: string}>(
+        'SELECT original FROM storage WHERE short_code = ?', 
+        [shortCode]
+      );
+    } catch (error) {
+      console.error("Error in /:short_code:", error);
+      response.status = 500;
+      response.body = { error: "Database error" };
+      return;
+    }
 
-  if (result.rowCount !== null && result.rowCount === 0) {
-    response.status = 404;
-    return;
+    if (!result.rows || result.rows.length === 0) {
+      response.status = 404;
+      return;
+    }
+    
+    const original = result.rows[0].original;
+    
+    response.status = 302;
+    response.headers.set("Location", original);
+    response.redirect(original);
+  } catch (error) {
+    console.error("Error in /:short_code:", error);
+    response.status = 500;
+    response.body = { error: "Internal server error" };
   }
-  
-  const original = result.rows[0].original;
-  
-  response.status = 302;
-  response.headers.set("Location", original);
-  response.redirect(original);
 });
 
 application.use(async ({ request, response }, next) => {
