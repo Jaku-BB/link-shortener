@@ -34,8 +34,8 @@ router.post("/shorten", async ({ request, response }) => {
 
     try {
       await query(
-        "INSERT INTO storage (id, short_code, original) VALUES (?, ?, ?)",
-        [Number(nextId), shortCode, link],
+        "INSERT INTO storage (id, short_code, original_url, created_at) VALUES (?, ?, ?, ?)",
+        [crypto.randomUUID(), shortCode, link, new Date()],
       );
     } catch (error) {
       console.error("Error in /shorten:", error);

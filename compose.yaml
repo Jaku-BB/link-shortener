@@ -1,6 +1,7 @@
 services:
-  cassandra:
+  cassandra-1:
     image: cassandra:latest
+    container_name: cassandra-1
     ports:
       - "9042:9042"
     restart: always
@@ -8,6 +9,7 @@ services:
       - MAX_HEAP_SIZE=512M
       - HEAP_NEWSIZE=100M
       - CASSANDRA_CLUSTER_NAME=link_shortener_cluster
+      - CASSANDRA_SEEDS=cassandra-1
     healthcheck:
       test: [ "CMD", "cqlsh", "-e", "SELECT * FROM system.local" ]
       interval: 30s
@@ -17,17 +19,37 @@ services:
     networks:
       - main
     
-  cassandra-initialize:
+  cassandra-2:
     image: cassandra:latest
+    container_name: cassandra-2
+    ports:
+      - "9043:9042"
+    restart: always
+    environment:
+      - MAX_HEAP_SIZE=512M
+      - HEAP_NEWSIZE=100M
+      - CASSANDRA_CLUSTER_NAME=link_shortener_cluster
+      - CASSANDRA_SEEDS=cassandra-1
     depends_on:
-      cassandra:
+      cassandra-1:
         condition: service_healthy
-    volumes:
-      - ./shortener/schema.cql:/schema.cql
-    command: >
-      bash -c "sleep 30 &&
-               cqlsh cassandra -e \"CREATE KEYSPACE IF NOT EXISTS link_shortener WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };\" &&
-               cqlsh cassandra -k link_shortener -f /schema.cql"
+    networks:
+      - main
+      
+  cassandra-3:
+    image: cassandra:latest
+    container_name: cassandra-3
+    ports:
+      - "9044:9042"
+    restart: always
+    environment:
+      - MAX_HEAP_SIZE=512M
+      - HEAP_NEWSIZE=100M
+      - CASSANDRA_CLUSTER_NAME=link_shortener_cluster
+      - CASSANDRA_SEEDS=cassandra-1
+    depends_on:
+      cassandra-2:
+        condition: service_started
     networks:
       - main
     
@@ -36,10 +58,10 @@ services:
     ports:
       - "2137:2137"
     depends_on:
-      cassandra-initialize:
-        condition: service_completed_successfully
+      cassandra-1:
+        condition: service_healthy
     environment:
-      - CASSANDRA_CONTACT_POINTS=cassandra
+      - CASSANDRA_CONTACT_POINTS=cassandra-1,cassandra-2,cassandra-3
       - CASSANDRA_DATACENTER=datacenter1
       - CASSANDRA_KEYSPACE=link_shortener
     networks:
@@ -50,10 +72,10 @@ services:
     ports:
       - "1939:1939"
     depends_on:
-      cassandra-initialize:
-        condition: service_completed_successfully
+      cassandra-1:
+        condition: service_healthy
     environment:
-      - CASSANDRA_CONTACT_POINTS=cassandra
+      - CASSANDRA_CONTACT_POINTS=cassandra-1,cassandra-2,cassandra-3
       - CASSANDRA_DATACENTER=datacenter1
       - CASSANDRA_KEYSPACE=link_shortener
     networks:

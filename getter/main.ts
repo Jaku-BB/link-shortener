@@ -15,8 +15,8 @@ router.get("/:short_code", async ({ response, params }) => {
 
     let result;
     try {
-      result = await query<{original: string}>(
-        'SELECT original FROM storage WHERE short_code = ?', 
+      result = await query<{original_url: string}>(
+        'SELECT original_url FROM storage WHERE short_code = ?', 
         [shortCode]
       );
     } catch (error) {
@@ -31,7 +31,7 @@ router.get("/:short_code", async ({ response, params }) => {
       return;
     }
     
-    const original = result.rows[0].original;
+    const original = result.rows[0].original_url;
     
     response.status = 302;
     response.headers.set("Location", original);
