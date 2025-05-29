@@ -6,6 +6,7 @@
     "npm:base62@2.0.2": "2.0.2",
     "npm:cassandra-driver@4.7.2": "4.7.2",
     "npm:cassandra-driver@^4.7.2": "4.7.2",
+    "npm:kafkajs@2.2.4": "2.2.4",
     "npm:path-to-regexp@^6.3.0": "6.3.0"
   },
   "npm": {
@@ -43,6 +44,9 @@
         "adm-zip",
         "long"
       ]
+    },
+    "kafkajs@2.2.4": {
+      "integrity": "sha512-j/YeapB1vfPT2iOIUn/vxdyKEuhuY2PxMBvf5JWux6iSaukAccrMtXEY/Lb7OvavDhOWME589bpLrEdnVHjfjA=="
     },
     "long@5.2.5": {
       "integrity": "sha512-e0r9YBBgNCq1D1o5Dp8FMH0N5hsFtXDBiVa0qoJPHpakvZkmDKPRoGffZJII/XsHvj9An9blm+cRJ01yQqU+Dw=="

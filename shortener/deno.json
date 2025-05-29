@@ -5,6 +5,7 @@
   "imports": {
     "@oak/oak": "jsr:@oak/oak@^17.1.4",
     "base62": "npm:base62@^2.0.2",
-    "cassandra-driver": "npm:cassandra-driver@^4.7.2"
+    "cassandra-driver": "npm:cassandra-driver@^4.7.2",
+    "kafkajs": "npm:kafkajs@^2.2.4"
   }
 }

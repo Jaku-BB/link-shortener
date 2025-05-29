@@ -1,0 +1,8 @@
+{
+  "tasks": {
+    "consumer": "deno run --allow-net --allow-env kafka-consumer.ts"
+  },
+  "imports": {
+    "kafkajs": "npm:kafkajs@^2.2.4"
+  }
+} 

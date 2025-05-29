@@ -1,0 +1,16 @@
+{
+  "version": "4",
+  "specifiers": {
+    "npm:kafkajs@^2.2.4": "2.2.4"
+  },
+  "npm": {
+    "kafkajs@2.2.4": {
+      "integrity": "sha512-j/YeapB1vfPT2iOIUn/vxdyKEuhuY2PxMBvf5JWux6iSaukAccrMtXEY/Lb7OvavDhOWME589bpLrEdnVHjfjA=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:kafkajs@^2.2.4"
+    ]
+  }
+}

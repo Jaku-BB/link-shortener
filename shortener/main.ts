@@ -1,7 +1,11 @@
 import { Application, Router } from "@oak/oak";
 import { query, incrementCounter } from "./database.ts";
+import { checkForBannedWords } from "./banned-words.ts";
+import { initializeKafka, sendBannedWordAlert, shutdownKafka } from "./messaging.ts";
 import base62 from "npm:base62@2.0.2";
 const { encode } = base62;
+
+await initializeKafka();
 
 const application = new Application();
 const router = new Router();
@@ -19,6 +23,14 @@ router.post("/shorten", async ({ request, response }) => {
 
     if (!link || !URL.canParse(link)) {
       response.status = 400;
+      return;
+    }
+
+    const bannedWordDetection = checkForBannedWords(link);
+    if (bannedWordDetection) {
+      await sendBannedWordAlert(bannedWordDetection);
+      response.status = 400;
+      response.body = { error: "URL contains banned content" };
       return;
     }
 
@@ -67,3 +79,15 @@ application.use(router.routes());
 application.use(router.allowedMethods());
 
 application.listen({ port: 2137 });
+
+Deno.addSignalListener("SIGINT", async () => {
+  console.log("Shutting down gracefully...");
+  await shutdownKafka();
+  Deno.exit(0);
+});
+
+Deno.addSignalListener("SIGTERM", async () => {
+  console.log("Shutting down gracefully...");
+  await shutdownKafka();
+  Deno.exit(0);
+});
